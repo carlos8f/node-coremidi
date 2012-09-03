@@ -1,0 +1,33 @@
+{
+  "name": "coremidi",
+  "version": "0.0.0",
+  "description": "interact with CoreMIDI services on Mac OS platforms",
+  "main": "index.js",
+  "dependencies": {
+    "bindings": "~1.0.0",
+    "event-stream": "~3.0.4"
+  },
+  "devDependencies": {
+    "mocha": "*"
+  },
+  "scripts": {
+    "test": "make test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/carlos8f/node-coremidi.git"
+  },
+  "homepage": "https://github.com/carlos8f/node-coremidi",
+  "keywords": [
+    "midi",
+    "mac",
+    "music",
+    "interface",
+    "awesome"
+  ],
+  "author": "Carlos Rodriguez <carlos@s8f.org> (http://s8f.org/)",
+  "license": "MIT",
+  "os": [
+    "darwin"
+  ]
+}
