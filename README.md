@@ -26,7 +26,8 @@ synth.send([144, 60, 127]);
 var coremidi = require('coremidi')
   , api = require('midi-api')({end: true})
 
-api.bank(2)
+api
+  .bank(2)
   .program(4)
   .rest(500)
 
