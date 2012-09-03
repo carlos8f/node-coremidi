@@ -5,6 +5,51 @@ allow Node.js to interact with CoreMIDI services on Mac OS platforms
 
 [![build status](https://secure.travis-ci.org/carlos8f/node-coremidi.png)](http://travis-ci.org/carlos8f/node-coremidi)
 
+Usage
+-----
+
+### Playing middle-C with CoreMIDI synth
+
+`coremidi.synth()` returns an object with a single method: `send()`. Use it
+to send midi messages (array of three numbers) to the CoreMIDI synth.
+
+```javascript
+var synth = require('coremidi').synth();
+
+synth.send([144, 60, 127]);
+```
+
+### Piping messages 
+
+`coremidi.stream()` returns a writable stream which will call
+`coremidi.synth().send()` on every `data` event. Useful as a pipe destination.
+
+```javascript
+var coremidi = require('coremidi')
+  , api = require('midi-api')({end: true})
+
+api.bank(2)
+  .program(4)
+  .rest(500)
+
+function maj7 (root) {
+  api
+    .noteOn(root)
+    .noteOn(root + 4)
+    .noteOn(root + 7)
+    .noteOn(root + 11)
+    .rest(1000)
+    .noteOff()
+}
+
+maj7(60)
+maj7(61)
+maj7(62)
+maj7(63)
+
+api.pipe(coremidi.stream());
+```
+
 - - -
 
 ### Developed by [Terra Eclipse](http://www.terraeclipse.com)
