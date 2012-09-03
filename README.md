@@ -24,15 +24,15 @@ synth.send([144, 60, 127]);
 
 ```javascript
 var coremidi = require('coremidi')
-  , api = require('midi-api')({end: true})
+  , midi = require('midi-api')({end: true})
 
-api
+midi
   .bank(2)
   .program(4)
   .rest(500)
 
 function maj7 (root) {
-  api
+  midi
     .noteOn(root)
     .noteOn(root + 4)
     .noteOn(root + 7)
@@ -46,7 +46,7 @@ maj7(61)
 maj7(62)
 maj7(63)
 
-api.pipe(coremidi.stream());
+midi.pipe(coremidi.stream());
 ```
 
 - - -
