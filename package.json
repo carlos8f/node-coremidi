@@ -8,7 +8,8 @@
     "event-stream": "~3.0.4"
   },
   "devDependencies": {
-    "mocha": "*"
+    "mocha": "*",
+    "midi-api": "~0.1.2"
   },
   "scripts": {
     "test": "make test"
