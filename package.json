@@ -5,11 +5,11 @@
   "main": "index.js",
   "dependencies": {
     "bindings": "~1.0.0",
-    "event-stream": "~3.0.4"
+    "through": "~1.0.0"
   },
   "devDependencies": {
     "mocha": "*",
-    "midi-api": "~0.1.2"
+    "midi-api": "~0.1.4"
   },
   "scripts": {
     "test": "make test"

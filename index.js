@@ -1,5 +1,5 @@
 var driver = require('bindings')('synth')
-  , es = require('event-stream')
+  , through = require('through')
 
 exports.synth = function synth () {
   return new driver.synth();
@@ -7,7 +7,7 @@ exports.synth = function synth () {
 
 exports.stream = function stream () {
   var synth = exports.synth()
-    , stream = es.through(synth.send.bind(synth));
+    , stream = through(synth.send.bind(synth));
 
   stream.once('close', function () {
     delete synth;
