@@ -3,8 +3,6 @@ coremidi
 
 allow Node.js to interact with CoreMIDI services on Mac OS platforms
 
-[![build status](https://secure.travis-ci.org/carlos8f/node-coremidi.png)](http://travis-ci.org/carlos8f/node-coremidi)
-
 Usage
 -----
 
