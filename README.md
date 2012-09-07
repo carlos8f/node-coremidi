@@ -6,25 +6,27 @@ allow Node.js to interact with CoreMIDI services on Mac OS platforms
 Usage
 -----
 
-### Playing middle-C with CoreMIDI synth
+`coremidi` exports a function which returns a stream. MIDI messages are sent by
+writing an array to the stream.
 
-`coremidi.synth()` returns an object with a single method: `send()`. Use it
-to send midi messages (array of three numbers) to the CoreMIDI synth.
+### Simple example
+
+Playing middle C:
 
 ```javascript
-var synth = require('coremidi').synth();
+var coremidi = require('coremidi')();
 
-synth.send([144, 60, 127]);
+coremidi.write([144, 60, 127]);
+setTimeout(function() {
+  coremidi.write([128, 60, 0]);
+}, 2000);
 ```
 
-### Piping messages 
-
-`coremidi.stream()` returns a writable stream which will call
-`coremidi.synth().send()` on every `data` event. Useful as a pipe destination.
+### Example with [midi-api](https://github.com/carlos8f/node-midi-api)
 
 ```javascript
 var coremidi = require('coremidi')
-  , midi = require('midi-api')({end: true})
+  , midi = require('midi-api')()
 
 midi
   .bank(2)
@@ -46,7 +48,7 @@ maj7(61)
 maj7(62)
 maj7(63)
 
-midi.pipe(coremidi.stream());
+midi.pipe(coremidi());
 ```
 
 - - -
