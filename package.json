@@ -1,6 +1,6 @@
 {
   "name": "coremidi",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "interact with CoreMIDI services on Mac OS platforms",
   "main": "index.js",
   "dependencies": {
@@ -9,7 +9,7 @@
   },
   "devDependencies": {
     "mocha": "*",
-    "midi-api": "~0.1.4"
+    "midi-api": "~0.1.6"
   },
   "scripts": {
     "test": "make test"

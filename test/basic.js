@@ -1,4 +1,4 @@
-var midi = require('midi-api')({end: true})
+var midi = require('midi-api')()
   , coremidi = require('../')
 
 describe('basic test', function () {
@@ -28,6 +28,6 @@ describe('basic test', function () {
     midi.noteOff();
     midi.rest(500);
 
-    midi.pipe(coremidi.stream()).once('end', done);
+    midi.pipe(coremidi()).once('end', done);
   });
 });
