@@ -1,30 +1,30 @@
 #include <node.h>
 #include <v8.h>
+#include <nan.h>
 #include <AudioUnit/AudioUnit.h>
 #include <AudioToolbox/AudioToolbox.h>
 
 using namespace node;
 
-class Synth : ObjectWrap
+class Synth : public Nan::ObjectWrap
 {
 private:
     AUGraph graph;
     AudioUnit synthUnit;
 public:
-    static v8::Persistent<v8::FunctionTemplate> s_ct;
+    static Nan::Persistent<v8::FunctionTemplate> s_ct;
     static void Init(v8::Handle<v8::Object> target)
     {
-        v8::HandleScope scope;
-        v8::Local<v8::FunctionTemplate> t = v8::FunctionTemplate::New(New);
+        Nan::HandleScope scope;
+        v8::Local<v8::FunctionTemplate> t = Nan::New<v8::FunctionTemplate>(Synth::New);
         
-        s_ct = v8::Persistent<v8::FunctionTemplate>::New(t);
-        s_ct->InstanceTemplate()->SetInternalFieldCount(1);
-        s_ct->SetClassName(v8::String::NewSymbol("Synth"));
+        Nan::Persistent<v8::FunctionTemplate>(s_ct);
+        t->InstanceTemplate()->SetInternalFieldCount(1);
+        t->SetClassName(Nan::New<v8::String>("Synth").ToLocalChecked());
         
-        NODE_SET_PROTOTYPE_METHOD(s_ct, "send", Send);
+        Nan::SetPrototypeMethod(t, "send", Send);
         
-        target->Set(v8::String::NewSymbol("synth"),
-                    s_ct->GetFunction());
+        target->Set(Nan::New<v8::String>("synth").ToLocalChecked(), t->GetFunction());
     }
     
     Synth()
@@ -58,42 +58,38 @@ public:
         DisposeAUGraph(graph);
     }
 
-    static v8::Handle<v8::Value> New(const v8::Arguments& args)
+    static NAN_METHOD(New)
     {
-        v8::HandleScope scope;
+        Nan::HandleScope scope;
         Synth* synth = new Synth();
-        synth->Wrap(args.This());
-        return args.This();
+        synth->Wrap(info.This());
+        return;
     }
     
-    static v8::Handle<v8::Value> Send(const v8::Arguments& args)
+    static NAN_METHOD(Send)
     {
-        v8::HandleScope scope;
-        Synth* synth = ObjectWrap::Unwrap<Synth>(args.This());
-        if (args.Length() == 0 || !args[0]->IsArray()) {
-            return ThrowException(v8::Exception::TypeError(
-                v8::String::New("First argument must be an array")));
+        Nan::HandleScope scope;
+        Synth* synth = Nan::ObjectWrap::Unwrap<Synth>(info.This());
+        if (info.Length() == 0 || !info[0]->IsArray()) {
+            return Nan::ThrowError("First argument must be an array");
         }
 
-        v8::Local<v8::Object> message = args[0]->ToObject();
-        size_t messageLength = message->Get(v8::String::New("length"))->Int32Value();
-
+        v8::Local<v8::Object> message = info[0]->ToObject();
+        size_t messageLength = message->Get(Nan::New<v8::String>("length").ToLocalChecked())->Int32Value();
         if (messageLength != 3) {
-            return ThrowException(v8::Exception::TypeError(
-                v8::String::New("Message array must have 3 elements")));
+            return Nan::ThrowError("Message array must have 3 elements");
         }
 
-        UInt32 status = message->Get(v8::Integer::New(0))->Int32Value();
-        UInt32 data1 = message->Get(v8::Integer::New(1))->Int32Value();
-        UInt32 data2 = message->Get(v8::Integer::New(2))->Int32Value();
-
+        UInt32 status = message->Get(Nan::New<v8::Integer>(0))->Int32Value();
+        UInt32 data1 = message->Get(Nan::New<v8::Integer>(1))->Int32Value();
+        UInt32 data2 = message->Get(Nan::New<v8::Integer>(2))->Int32Value();
         MusicDeviceMIDIEvent(synth->synthUnit, status, data1, data2, 0);
 
-        return scope.Close(v8::Undefined());
+        return;
     }
 };
 
-v8::Persistent<v8::FunctionTemplate> Synth::s_ct;
+Nan::Persistent<v8::FunctionTemplate> Synth::s_ct;
 
 extern "C" {
     void init (v8::Handle<v8::Object> target)
