@@ -1,6 +1,6 @@
 {
   "name": "coremidi",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "interact with CoreMIDI services on Mac OS platforms",
   "main": "index.js",
   "dependencies": {
