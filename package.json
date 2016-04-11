@@ -5,6 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "bindings": "~1.0.0",
+    "nan": "~2.2.1",
     "through": "~1.0.0"
   },
   "devDependencies": {
