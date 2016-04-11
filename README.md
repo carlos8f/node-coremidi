@@ -59,6 +59,12 @@ strategy firm located in Aptos, CA and Washington, D.C.
 
 - - -
 
+### Thanks
+
+Thanks to [UrGuardian4ngel](https://github.com/UrGuardian4ngel) for providing NAN (node > 0.11) support!
+
+---
+
 ### License: MIT
 
 - Copyright (C) 2012 Carlos Rodriguez (http://s8f.org/)
